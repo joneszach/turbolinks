@@ -12,13 +12,15 @@ createDocument          = null
 xhr                     = null
 
 
-fetch = (url) ->
+fetch = (url, shouldResetScroll = true) ->
   rememberReferer()
   cacheCurrentPage()
   reflectNewUrl url
 
   if transitionCacheEnabled and cachedPage = transitionCacheFor(url)
     fetchHistory cachedPage
+    fetchReplacement url
+  else if !shouldResetScroll
     fetchReplacement url
   else
     fetchReplacement url, resetScrollPosition
